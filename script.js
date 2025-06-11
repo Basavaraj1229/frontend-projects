@@ -1,39 +1,53 @@
-let wrapper = document.getElementsByClassName("wrapper")[0];
-let template = document.getElementsByTagName("template")[0];
+const timeline = document.getElementById("timeline");
+const prev = document.getElementById("prev");
+const next = document.getElementById("next");
+const circles = document.querySelectorAll(".circle");
 
-let names = ["Vijay","Shaurya","Ajay"];
+let step = 1;
 
+function mainCode(){
 
-let colors = [
+    circles.forEach((circles,index)=>{
+        if(index < step){
+            circles.classList.add("active");
+        }else{
+            circles.classList.remove("active");
+        }
+    });
 
-  "#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#00FFFF", "#FF00FF", "#800000",
-  "#8B0000", "#FFA500", "#FFD700", "#6B8E23", "#7CFC00", "#000080", "#8B008B",
-  "#FF00FF", "#F4A460", "#FF3855", "#FD3A4A", "#FB4D46", "#FA5B3D", "#FFAA1D",
-  "#FFF700", "#299617", "#A7F432", "#2243B6", "#5DADEC", "#5946B2", "#9C51B6",
+    const actives = document.querySelectorAll(".active");
+    timeline.style.width = `${
+        ((actives.length - 1) / (circles.length - 1)) * 100    
+    }%`;
 
-];
-
-let sticker = function (name){
-
-    let div = template.content.querySelector("div");
-    let nameOfStick = div.querySelector(".name");
-
-    nameOfStick.innerHTML = name;
-
-    div.style.background = colors[Math.floor(Math.random() * colors.length)];
-
-    div.style.transform = "rotate(" + (Math.random() * 40 -20) + "deg)";
-
-
-    let node = document.importNode(div,true);
-    wrapper.appendChild(node)
+    if(step === 1){
+        prev.disabled = true; 
+    }else if (step === circles.length){
+        next.disabled = true;
+    }else{
+        prev.disabled = false;
+        next.disabled = false;
+    }
 
 }
 
+next.addEventListener("click",()=>{
 
-setTimeout(refereshPage,1000);
-function refereshPage(){
-    location.reload();
-}
+    step++;
+    if(step > circles.length){
+        step = circles.length;
+    }
 
-names.forEach(sticker);
+    mainCode();
+});
+
+prev.addEventListener("click",()=>{
+
+    step--;
+    if(step < 1)
+    {
+        step = 1;
+    }
+
+    mainCode();
+});
