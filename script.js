@@ -1,37 +1,24 @@
 
-const body = document.body;
-const range = document.getElementById("_range");
-const number = document.getElementById("rangeValue");
+setInterval(particles,300);
 
+function particles(){
 
-function updateStyle(){
+    const div = document.querySelector("div");
+    const particles = document.createElement("span");
 
-    const value = Number(number.innerText);
+    let sizeOfParticles = Math.random();
 
-    if(value >= 90){
-        applyStyles('#000',"#f5d300");
-    }else if(value >= 70){
-        applyStyles('#333',"#fe53bb");
-    }else if (value >= 50) {
-        applyStyles("#555", "#09fbd3");
-    } else if (value >= 25) {
-        applyStyles("#fff", "#08f7fe");
-    } else if (value === 0) {
-        applyStyles("red", "#333");
-    }
+    particles.style.width = 50 + sizeOfParticles + "px";
+    particles.style.height = 50 + sizeOfParticles + "px";
 
-}
+    particles.style.top = Math.random() * innerHeight + "px";
+    particles.style.left = Math.random() * innerWidth + "px";
 
-function applyStyles(color,backgroundColor){
-    number.style.color = color;
-    body.style.backgroundColor = backgroundColor;
+    div.appendChild(particles);
+
+    setTimeout(()=>{
+        particles.remove();
+
+    },2000);
 
 }
-
-range.addEventListener("input",function(){
-
-    const sliderValue = Math.min(this.value,100);
-    number.innerText = sliderValue;
-
-    updateStyle();
-});
