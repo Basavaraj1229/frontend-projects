@@ -1,30 +1,38 @@
-function convertTemperature(){
+const v = document.getElementById("v")
+const i = document.getElementById("i")
+const j = document.getElementById("j")
+const a = document.getElementById("a")
+const y = document.getElementById("y")
+const vijay = document.getElementById("complete")
+
+v.addEventListener("click",()=>{
+    v.style.display = "none";
+    i.style.display = "block";
+});
+
+i.addEventListener("click",()=>{
+    i.style.display = "none";
+    j.style.display = "block";
+});
+
+j.addEventListener("click",()=>{
+    j.style.display = "none";
+    a.style.display = "block";
+});
+
+a.addEventListener("click",()=>{
+    a.style.display = "none";
+    y.style.display = "block";
+});
+
+y.addEventListener("click",()=>{
+    y.style.display = "none";
+    vijay.style.display = "block";
+});
+
+vijay.addEventListener("click",()=>{
+    vijay.style.display = "none";
+    v.style.display = "block";
+});
 
 
-    const celsiusInput = document.getElementById("celsius");
-    const fahrenheitInput = document.getElementById("fahrenheit");
-
-
-    if(!isNaN(celsiusInput.value)){
-
-        const celsiusValue = parseFloat(celsiusInput.value);
-        const fahrenheitValue = (celsiusValue * 9/5) + 32;
-
-        fahrenheitInput.value = fahrenheitValue.toFixed(2);
-
-    }else if(!isNaN(fahrenheitInput.value)){
-        
-        const fahrenheitValue = fahrenheitInput.value;
-        const celsiusValue = (fahrenheitValue - 32) * 5/9;
-       
-
-        celsiusInput.value = celsiusValue.toFixed(2);
-
-
-    }else{
-        alert("Please enter a Valid Number")
-    }
-
-
-
-}
