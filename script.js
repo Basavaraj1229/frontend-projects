@@ -1,53 +1,30 @@
-const timeline = document.getElementById("timeline");
-const prev = document.getElementById("prev");
-const next = document.getElementById("next");
-const circles = document.querySelectorAll(".circle");
+function convertTemperature(){
 
-let step = 1;
 
-function mainCode(){
+    const celsiusInput = document.getElementById("celsius");
+    const fahrenheitInput = document.getElementById("fahrenheit");
 
-    circles.forEach((circles,index)=>{
-        if(index < step){
-            circles.classList.add("active");
-        }else{
-            circles.classList.remove("active");
-        }
-    });
 
-    const actives = document.querySelectorAll(".active");
-    timeline.style.width = `${
-        ((actives.length - 1) / (circles.length - 1)) * 100    
-    }%`;
+    if(!isNaN(celsiusInput.value)){
 
-    if(step === 1){
-        prev.disabled = true; 
-    }else if (step === circles.length){
-        next.disabled = true;
+        const celsiusValue = parseFloat(celsiusInput.value);
+        const fahrenheitValue = (celsiusValue * 9/5) + 32;
+
+        fahrenheitInput.value = fahrenheitValue.toFixed(2);
+
+    }else if(!isNaN(fahrenheitInput.value)){
+        
+        const fahrenheitValue = fahrenheitInput.value;
+        const celsiusValue = (fahrenheitValue - 32) * 5/9;
+       
+
+        celsiusInput.value = celsiusValue.toFixed(2);
+
+
     }else{
-        prev.disabled = false;
-        next.disabled = false;
+        alert("Please enter a Valid Number")
     }
+
+
 
 }
-
-next.addEventListener("click",()=>{
-
-    step++;
-    if(step > circles.length){
-        step = circles.length;
-    }
-
-    mainCode();
-});
-
-prev.addEventListener("click",()=>{
-
-    step--;
-    if(step < 1)
-    {
-        step = 1;
-    }
-
-    mainCode();
-});
