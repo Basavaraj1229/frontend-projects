@@ -1,42 +1,39 @@
+let wrapper = document.getElementsByClassName("wrapper")[0];
+let template = document.getElementsByTagName("template")[0];
 
-const coin = document.querySelector("#coin");
-const button = document.querySelector("#flip");
-const statusLabel = document.querySelector("#status");
-const heads = document.querySelector("#headsCount");
-const tails = document.querySelector("#tailsCount");
+let names = ["Vijay","Shaurya","Ajay"];
 
 
+let colors = [
 
-let headsCount = 0;
-let tailsCount = 0;
+  "#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#00FFFF", "#FF00FF", "#800000",
+  "#8B0000", "#FFA500", "#FFD700", "#6B8E23", "#7CFC00", "#000080", "#8B008B",
+  "#FF00FF", "#F4A460", "#FF3855", "#FD3A4A", "#FB4D46", "#FA5B3D", "#FFAA1D",
+  "#FFF700", "#299617", "#A7F432", "#2243B6", "#5DADEC", "#5946B2", "#9C51B6",
 
-function processResult(result){
+];
 
-    if(result === 'heads'){
-        headsCount++;
-        heads.innerHTML = headsCount;
-    }else{
-        tailsCount++;
-        tails.innerHTML = tailsCount;
-    }
+let sticker = function (name){
 
-    statusLabel.innerText = result.toUpperCase();
+    let div = template.content.querySelector("div");
+    let nameOfStick = div.querySelector(".name");
+
+    nameOfStick.innerHTML = name;
+
+    div.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+    div.style.transform = "rotate(" + (Math.random() * 40 -20) + "deg)";
+
+
+    let node = document.importNode(div,true);
+    wrapper.appendChild(node)
+
 }
 
 
-function flipCoin(){
-
-    const random = Math.random();
-    const result = random < 0.5 ? 'heads' : 'tails';
-
-    setTimeout(() => {
-            coin.setAttribute('class','animate-' + result);
-
-            setTimeout(() => {
-                    processResult(result);
-            }, 2900);
-
-    }, 100);
+setTimeout(refereshPage,1000);
+function refereshPage(){
+    location.reload();
 }
 
-button.addEventListener("click",flipCoin);
+names.forEach(sticker);
