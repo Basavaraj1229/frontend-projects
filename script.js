@@ -1,89 +1,59 @@
-const minutesLabel = document.getElementById('minutes');
-const secondsLabel = document.getElementById('seconds');
-const millisecondsLabel = document.getElementById('milliseconds');
 
-const startButton = document.getElementById('startBtn');
-const stopButton = document.getElementById('stopBtn');
-const pauseButton = document.getElementById('pauseBtn');
-const resetButton = document.getElementById('resetBtn');
-
-const lapList = document.getElementById('laplist');
-
-/// stopwatch variables
-
-let minutes = 0;
-let seconds = 0;
-let milliseconds = 0;
-let interval;
-
-startButton.addEventListener('click',startTimer);
-stopButton.addEventListener('click',stopTimer);
-pauseButton.addEventListener('click',pauseTimer);
-resetButton.addEventListener('click',resetTimer);
+const options = [
+    {id:"option1", text:"JavaScript", votes:0},
+    {id:"option2", text:"Python", votes:0},
+    {id:"option3", text:"Java", votes:0},
+    {id:"option4", text:"C++", votes:0},
+];
 
 
-function startTimer(){
 
-    interval =  setInterval(updateTimer,10);
-    startButton.disabled = true;
+function submitVote(){
 
-}
+    const selectedOption = document.querySelector('input[name="poll"]:checked');
+   // console.log(selectedOption.value);
 
-function stopTimer(){
-
-    clearInterval(interval);
-    addToLapList();
-    resetTimerData();
-    startButton.disabled = false;
-}
-
-function pauseTimer(){
-    clearInterval(interval);
-    startButton.disabled = false;
-}
-
-function resetTimer(){
-    clearInterval(interval);
-    resetTimerData();
-    startButton.disabled = false;
-
-}
-
-function updateTimer(){
-    milliseconds++;
-    if(milliseconds === 100){  //// 1000  -> 1 seconds = 1000 millseconds
-        milliseconds = 0;
-        seconds++;
-        if(seconds === 60){
-            seconds = 0;
-            minutes++;
-        }
+    if(!selectedOption){
+        alert("Please select an optin.");
+        return;
     }
 
-    displayTimer();
+    const optionId = selectedOption.value;
+    const selectedOptionObj = options.find((option)=> option.id === optionId);
+   // console.log(selectedOptionObj);
+    if(selectedOptionObj){
+        selectedOptionObj.votes++;
+        console.log(selectedOptionObj);
+        displayResult();
+    }
+
 }
 
-function displayTimer(){
-    millisecondsLabel.textContent = padTime(milliseconds);
-    secondsLabel.textContent = padTime(seconds);
-    minutesLabel.textContent = padTime(minutes);    
+
+function displayResult(){
+    const result = document.getElementById('result');
+    result.innerHTML = "";
+
+    options.forEach((option)=>{
+        const percentage = ((option.votes/ getTotalVotes()) * 100).toFixed(2) || 0;
+        const barWidth = percentage > 0 ? percentage + "%" : "0%";
+
+        const optionResult = document.createElement("div");
+        optionResult.className = "option-result";
+        optionResult.innerHTML = `
+            <span class = "option-text">${option.text}</span>
+            <div class = "bar-container">
+                <div class = "bar" style="width: ${barWidth};"></div>
+            </div>
+            <span class = "percentage">${percentage}%</span>
+        `;
+        
+        result.appendChild(optionResult);
+    });
 }
 
-function padTime(time){
-    return time.toString().padStart(2,'0');
+function getTotalVotes(){
+    return options.reduce((total,option)=> total + option.votes,0);
 }
 
-function resetTimerData(){
-    minutes = 0;
-    seconds = 0;
-    milliseconds = 0;
-    displayTimer();
-}
-
-function addToLapList(){
-    const lapTime = `${padTime(minutes)}:${padTime(seconds)}:${padTime(milliseconds)}`;
-
-    const listItem = document.createElement('li');
-    listItem.innerHTML = `<span>Lap ${lapList.childElementCount + 1}: </span>${lapTime}`;
-    lapList.appendChild(listItem);
-}
+displayResult();
