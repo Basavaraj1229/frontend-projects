@@ -1,38 +1,37 @@
-const v = document.getElementById("v")
-const i = document.getElementById("i")
-const j = document.getElementById("j")
-const a = document.getElementById("a")
-const y = document.getElementById("y")
-const vijay = document.getElementById("complete")
 
-v.addEventListener("click",()=>{
-    v.style.display = "none";
-    i.style.display = "block";
+const body = document.body;
+const range = document.getElementById("_range");
+const number = document.getElementById("rangeValue");
+
+
+function updateStyle(){
+
+    const value = Number(number.innerText);
+
+    if(value >= 90){
+        applyStyles('#000',"#f5d300");
+    }else if(value >= 70){
+        applyStyles('#333',"#fe53bb");
+    }else if (value >= 50) {
+        applyStyles("#555", "#09fbd3");
+    } else if (value >= 25) {
+        applyStyles("#fff", "#08f7fe");
+    } else if (value === 0) {
+        applyStyles("red", "#333");
+    }
+
+}
+
+function applyStyles(color,backgroundColor){
+    number.style.color = color;
+    body.style.backgroundColor = backgroundColor;
+
+}
+
+range.addEventListener("input",function(){
+
+    const sliderValue = Math.min(this.value,100);
+    number.innerText = sliderValue;
+
+    updateStyle();
 });
-
-i.addEventListener("click",()=>{
-    i.style.display = "none";
-    j.style.display = "block";
-});
-
-j.addEventListener("click",()=>{
-    j.style.display = "none";
-    a.style.display = "block";
-});
-
-a.addEventListener("click",()=>{
-    a.style.display = "none";
-    y.style.display = "block";
-});
-
-y.addEventListener("click",()=>{
-    y.style.display = "none";
-    vijay.style.display = "block";
-});
-
-vijay.addEventListener("click",()=>{
-    vijay.style.display = "none";
-    v.style.display = "block";
-});
-
-
